@@ -1,13 +1,19 @@
 from fastapi import FastAPI
+from app.core.config import settings
+from beanie import init_beanie
+from motor.motor_asyncio import AsyncIOMotorClient
 
-app = FastAPI()
+app = FastAPI(
+    title=settings.PROJECT_NAME,
+    openapi_url=f"{settings.API_V1_STR}/openapi.json"
+)
 
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
-
-
-@app.get("/hello/{name}")
-async def say_hello(name: str):
-    return {"message": f"Hello {name}"}
+@app.on_event("startup")
+async def app_init():
+    # Initialize application services
+    db_client = AsyncIOMotorClient(settings.MONGO_CONNECTION_STRING).todo
+    await init_beanie(
+        database=db_client,
+        document_models=[]
+    )
