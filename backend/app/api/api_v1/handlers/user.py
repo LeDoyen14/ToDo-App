@@ -7,7 +7,7 @@ import pymongo
 user_router = APIRouter()
 
 
-@user_router.post('/create', summary="Create new user")
+@user_router.post('/create', summary="Create new user", response_model=UserOut)
 async def create_user(data: UserAuth):
     try:
         return await UserService.create_user(data)
