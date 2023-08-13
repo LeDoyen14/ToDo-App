@@ -58,4 +58,3 @@ async def refresh_token(r_token: str = Body(...)):
         "access_token": create_access_token(user.user_id),
         "refresh_token": create_refresh_token(user.user_id)
     }
-
