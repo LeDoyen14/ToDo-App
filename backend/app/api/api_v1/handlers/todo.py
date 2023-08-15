@@ -21,12 +21,12 @@ async def create_todo(data: TodoCreate, current_user: User = Depends(get_current
     return await TodoService.create_todo(data, current_user)
 
 
-@todo_router.get('/{todo_id}', summary="Get a Todo by id")
+@todo_router.get('/{todo_id}', summary="Get a Todo by id", response_model=TodoOut)
 async def retrieve(todo_id: UUID, current_user: User = Depends(get_current_user)):
     return await TodoService.retrieve_todo(current_user, todo_id)
 
 
-@todo_router.put('/{todo_id}', summary="Update a Todo by todo_id")
+@todo_router.put('/{todo_id}', summary="Update a Todo by todo_id", response_model=TodoOut)
 async def update(todo_id:  UUID, data: TodoUpdate, current_user: User = Depends(get_current_user)):
     return await TodoService.update_todo(current_user, todo_id, data)
 
